@@ -1,63 +1,19 @@
-import { createStore } from 'redux';
-import { combineReducers } from 'redux';
+import store from './store';
+import { addToCart } from './actions/cart-actions';
+import { updateCart } from './actions/cart-actions';
+import { deleteFromCart } from './actions/cart-actions';
 
-const productsReducer = function(state = [], action) {
-	return state;
-};
+// console.log('initial state: ', store.getState());
 
-const initialState = {
-	cart: [
-		{
-			product: 'bread 700g',
-			quantity: 2,
-			unitCost: 90
-		},
-		{
-			product: 'milk 500ml',
-			quantity: 1,
-			unitCost: 47
-		}
-	]
-};
-
-const ADD_TO_CART = 'ADD_TO_CART';
-
-const cartReducer = function(state = initialState, action) {
-	switch (action.type) {
-		case ADD_TO_CART: {
-			return {
-				...state,
-				cart: [...state.cart, action.payload]
-			};
-		}
-		default:
-			return state;
-	}
-};
-
-function addToCart(product, quantity, unitCost) {
-	return {
-		type: ADD_TO_CART,
-		payload: {
-			product,
-			quantity,
-			unitCost
-		}
-	};
-}
-
-const allReducers = {
-	products: productsReducer,
-	shoppingCart: cartReducer
-};
-
-const rootReducer = combineReducers(allReducers);
-let store = createStore(rootReducer);
-console.log('initial state: ', store.getState());
-let unsubscribe = store.subscribe(() => console.log(store.getState()));
+// let unsubscribe = store.subscribe(() => console.log(store.getState()));
 
 store.dispatch(addToCart('Coffee 500gm', 1, 250));
 store.dispatch(addToCart('Flour 1kg', 2, 110));
 store.dispatch(addToCart('Juice 2L', 1, 250));
+// update cart
+store.dispatch(updateCart('Flour 1kg', 5, 110));
 
-unsubscribe();
+//('Flour 1kg'); // delete from cart
+store.dispatch(deleteFromCart('Coffee 500gm'));
+
+// unsubscribe();
